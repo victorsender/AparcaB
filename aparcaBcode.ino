@@ -17,14 +17,14 @@ char modeActual = '0'; // Variable per guardar l'estat ('s' o 'c'). Comença atu
 void setup() {
   pinMode(trigPin, OUTPUT); // El pin Trigger envia el senyal (sortida)
   pinMode(echoPin, INPUT);  // El pin Echo rep el senyal (entrada)
-  pinMode(buzzer, OUTPUT); // El pin Buzzer emet un so
+  pinMode(buzzer, OUTPUT); // El pin pel buzzer (sortida)
 
   pinMode(vermell, OUTPUT); // Pin per al color vermell (sortida)
   pinMode(verd, OUTPUT);  // Pin per al color verd (sortida)
   pinMode(blau, OUTPUT); // Pin per al color blau (sortida)
 
   Serial.begin(9600); // Obre el port sèrie a 9600 bps
-  while (!Serial);  // Espera a que el monitor sèrie estigui llest 
+  while (!Serial);  // Espera que el monitor sèrie estigui llest 
   
   Serial.println("--- MENU ---");
   Serial.println("Escriu 's' per iniciar el SENSOR DE APARCAMENT");
@@ -45,7 +45,7 @@ void loop() {
     else if (r == 'c' || r == 'C') {
       modeActual = 'c';
       Serial.println("Mode CALIBRACIO activat.");
-      // Apaguem LEDs i buzzer al canviar a calibració
+      // Apaguem LEDs i buzzer en canviar a calibració
       setColor(0,0,0);
       noTone(buzzer);
     }
@@ -55,7 +55,7 @@ void loop() {
   if (modeActual == 's') {
     mesurardurada(); // Cridem a la funció que mesura les distàncies
     distance = (duration * 0.0343) / 2;
-    // Lógica visual i sonora del sensor
+    // Lògica visual i sonora del sensor
      int delayTime; // Creem una variable on guardarem el temps de pausa del 'pip'
      int toneFreq;   // Variable per guardar la freqüència (to) del 'pip'
 
@@ -97,7 +97,7 @@ void loop() {
     Serial.println(" cm");
     
    // Funcionament del brunzidor
-  tone(buzzer, toneFreq); // Encen el buzzer amb la freqüència decidida
+  tone(buzzer, toneFreq); // Encén el buzzer amb la freqüència decidida
   delay(delayTime / 2); // Deixa que soni durant la meitat del temps
   noTone(buzzer); // Apaga el buzzer (silenci)
   delay(delayTime / 2); // Espera en silenci durant l'altra meitat
@@ -107,7 +107,7 @@ void loop() {
   else if (modeActual == 'c') {
     mesurardurada(); // Cridem la mateixa funció de mesura
 
-    // En mode calibració, imprimim dades més ràpid i precís sense fer soroll
+    // En mode calibració, imprimim dades més ràpidament i precís sense fer soroll
     Serial.print("Durada: ");
     Serial.println(duration);   
     setColor(255, 255, 255); // Posem el LED Blanc fix per indicar mode calibració
